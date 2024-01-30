@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :authorized, only: [:create]
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record
 
   def create
