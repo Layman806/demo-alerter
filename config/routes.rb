@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   get "alerts/index"
   post "alerts/create"
   delete "alerts/:id", to: "alerts#delete"
+
+  post "price/new"
 end
