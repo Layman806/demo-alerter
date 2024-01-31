@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_30_130838) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_30_153951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alerts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "coin_id", null: false
+    t.string "status"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_alerts_on_coin_id"
+    t.index ["user_id"], name: "index_alerts_on_user_id"
+  end
+
+  create_table "coins", force: :cascade do |t|
+    t.string "sym"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
@@ -23,4 +41,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_30_130838) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "alerts", "coins"
+  add_foreign_key "alerts", "users"
 end
