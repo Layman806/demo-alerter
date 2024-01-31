@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   post "/auth/login", to: "auth#login"
 
   get 'alerts/index'
+  post 'alerts/create'
 end
