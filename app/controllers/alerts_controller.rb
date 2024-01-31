@@ -17,6 +17,17 @@ class AlertsController < ApplicationController
                                 price: params[:price]), status: 200
   end
 
+  def delete
+    alert = Alert.find(params[:id])
+    if alert.user != current_user
+      render json: 'Unauthorized', status: :unauthorized
+      return
+    end
+    alert.status = 'deleted'
+    alert.save!
+    render json: alert, status: 200
+  end
+
   private
 
   def handle_record_not_found(e)

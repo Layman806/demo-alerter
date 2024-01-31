@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get "/me", to: "users#me"
   post "/auth/login", to: "auth#login"
 
-  get 'alerts/index'
-  post 'alerts/create'
+  get "alerts/index"
+  post "alerts/create"
+  delete "alerts/:id", to: "alerts#delete"
 end
