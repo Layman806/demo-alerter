@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: alerter-postgres-16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: "postgres -c 'max_connections=500'"
+    environment:
+      POSTGRES_DB: alerter_development
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+  alerter-backend:
+    build: .
+    command: "bundle exec rails s"
+    environment:
+      DB_HOST: db
+      DB_NAME: alerter_development
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      RAILS_ENV: development 
+    volumes:
+      - .:/app:cached
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+volumes:
+  postgres_data: {}
+networks:
+  default:
+    name: alerter_default
+
